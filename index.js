@@ -1,17 +1,23 @@
+// Function to fetch books and render them to the DOM
 function fetchBooks() {
-  // To pass the tests, don't forget to return your fetch!
-  
+  return fetch("https://anapioficeandfire.com/api/books") // Fetch request
+    .then((response) => response.json()) // Parse the response as JSON
+    .then((books) => renderBooks(books)); // Pass the JSON data to renderBooks
 }
 
+// Function to render the books to the DOM
 function renderBooks(books) {
-  const main = document.querySelector('main');
-  books.forEach(book => {
-    const h2 = document.createElement('h2');
-    h2.innerHTML = book.name;
-    main.appendChild(h2);
-  });
+  const booksContainer = document.getElementById("books-container"); // Get the container element
+  if (booksContainer) {
+    const ul = document.createElement("ul"); // Create a list element for books
+    books.forEach((book) => {
+      const li = document.createElement("li"); // Create a list item for each book
+      li.textContent = book.name; // Set the book title
+      ul.appendChild(li); // Add the list item to the list
+    });
+    booksContainer.appendChild(ul); // Append the list of books to the container
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  fetchBooks();
-});
+// Wait for the DOM to load before running fetchBooks
+document.addEventListener("DOMContentLoaded", fetchBooks);
